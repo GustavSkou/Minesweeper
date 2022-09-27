@@ -1,5 +1,5 @@
 height = 188
 width = 150
 
-field_width = 4
-field_height = 2
+grid_size = 9
+mines = 25
