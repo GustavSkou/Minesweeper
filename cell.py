@@ -1,4 +1,3 @@
-import cell
 from tkinter import *
 import random
 

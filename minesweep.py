@@ -3,6 +3,8 @@ import settings
 import utils
 import images
 from cell import Cell
+from minecount import Counter
+from restart import Restart
 
 # Creating the window itself
 root = Tk()
@@ -30,16 +32,14 @@ top_frame.place(x=3, y=0)
 bottom_frame.place(x=3, y=utils.height_pro(20)+3)
 
 
-flag = PhotoImage(file=r"C:\Users\gusta\PycharmProjects\Minesweeper-test\images\flag.png")
-cell = PhotoImage(file=r"C:\Users\gusta\PycharmProjects\Minesweeper-test\images\cell.png")
-mine = PhotoImage(file=r"C:\Users\gusta\PycharmProjects\Minesweeper-test\images\mine.png")
+flag = PhotoImage(file=r"C:\Users\gusta\Documents\GitHub\Minesweeper\images\flag.png")
+cell = PhotoImage(file=r"C:\Users\gusta\Documents\GitHub\Minesweeper\images\cell.png")
+mine = PhotoImage(file=r"C:\Users\gusta\Documents\GitHub\Minesweeper\images\mine.png")
+rest = PhotoImage(file=r"C:\Users\gusta\Documents\GitHub\Minesweeper\images\restart.png")
 
-img = [cell, flag, mine]
+img = [cell, flag, mine, rest]
 
 # Creating minefield
-
-
-
 for x in range(settings.grid_size):
     for y in range(settings.grid_size):
         c = Cell(x, y)
@@ -51,7 +51,15 @@ for x in range(settings.grid_size):
             column=x, row=y
         )
 
-
+# Place restart buttom
+r = Restart()
+r.create_button(
+    top_frame,
+    img[3]
+)
+r.restart_button.place(
+    x = utils.width_pro(50)-6-5, y = utils.top_frame_height(30)
+)
 
 Cell.randomize_mines()
 print(Cell.all)
