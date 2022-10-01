@@ -1,27 +1,29 @@
 from tkinter import *
+
 import settings
 import utils
-import images
+import random
+
 from cell import Cell
-from minecount import Counter
 from restart import Restart
 
+
 # Creating the window itself
-root = Tk()
-root.configure(bg="white")                              # bg = background
-root.geometry(f"{settings.width}x{settings.height}")    # The size
-root.resizable(False, False)
-root.title('MineSweeper.exe')
+win = Tk()
+win.configure(bg="white")                              # bg = background
+win.geometry(f"{settings.width}x{settings.height}")    # The size
+win.resizable(False, False)
+win.title('MineSweeper.exe')
 
 # Creating the frames
 top_frame = Frame(                  # creating Frame that should contain restart, time & score
-    root,                           # what element are we placing the frame in
+    win,                           # what element are we placing the frame in
     bg="gray",
     width=settings.width-6,         # the width is 300, so it lines up with the window
     height=utils.height_pro(18)
 )
 bottom_frame = Frame(
-    root,
+    win,
     bg="red",
     width=settings.width-6,
     height=utils.height_pro(80)-6
@@ -32,10 +34,10 @@ top_frame.place(x=3, y=0)
 bottom_frame.place(x=3, y=utils.height_pro(20)+3)
 
 
-flag = PhotoImage(file=r"C:\Users\gusta\Documents\GitHub\Minesweeper\images\flag.png")
-cell = PhotoImage(file=r"C:\Users\gusta\Documents\GitHub\Minesweeper\images\cell.png")
-mine = PhotoImage(file=r"C:\Users\gusta\Documents\GitHub\Minesweeper\images\mine.png")
-rest = PhotoImage(file=r"C:\Users\gusta\Documents\GitHub\Minesweeper\images\restart.png")
+flag = PhotoImage(file=r"images\flag.png")
+cell = PhotoImage(file=r"images\one.png")
+mine = PhotoImage(file=r"images\mine.png")
+rest = PhotoImage(file=r"images\restart.png")
 
 img = [cell, flag, mine, rest]
 
@@ -51,18 +53,16 @@ for x in range(settings.grid_size):
             column=x, row=y
         )
 
-# Place restart buttom
+# Place restart button
 r = Restart()
 r.create_button(
     top_frame,
     img[3]
 )
 r.restart_button.place(
-    x = utils.width_pro(50)-6-5, y = utils.top_frame_height(30)
+    x=utils.width_pro(50)-3, y=utils.top_frame_height(50), anchor=CENTER
 )
 
 Cell.randomize_mines()
-print(Cell.all)
 
-
-root.mainloop()                     # Run until close
+win.mainloop()                     # Run until close

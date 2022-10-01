@@ -1,13 +1,13 @@
 from tkinter import *
-import random
-
 import settings
+import random
 
 
 class Cell:
     all = []
-    def __init__(self, x, y, is_mine=False, flaged=False):  # init meaning when it call apon it goes though it attibuts
-        self.flaged = flaged
+
+    def __init__(self, x, y, is_mine=False, flagged=False):  # init meaning when it call apon it goes though it attibuts
+        self.flagged = flagged
         self.is_mine = is_mine
         self.cell_button = None
         self.x = x
@@ -30,29 +30,50 @@ class Cell:
         self.cell_button = button
 
     def left_click(self, event):
-        if self.flaged:
+        if self.flagged:
             print("CELL FLAGGED")
         elif not self.is_mine:
-            print("NOT MINE")
+            mine_count = 0
+            mine_detector = [
+                            Cell.all[(pos := Cell.all.index(self)) - 10],
+                            Cell.all[pos - 9],
+                            Cell.all[pos - 8],
+                            Cell.all[pos - 1],
+                            Cell.all[pos + 1],
+                            Cell.all[pos + 8],
+                            Cell.all[pos + 9],
+                            Cell.all[pos + 10]
+                            ]
+            for item in mine_detector:
+                if item.is_mine:
+                    mine_count = mine_count + 1
+            print(mine_detector)
+            print(mine_count)
         else:
             print("BOOM")
 
     def right_click(self, event):
-        if not self.flaged:
-            self.flaged = True
+        if not self.flagged:
+            self.flagged = True
             print("FLAGGED")
 
         else:
-            self.flaged = False
-            print("UNFLAGED")
+            self.flagged = False
+            print("UNFLAGGED")
+
+    @staticmethod
+    def clear_mines():
+        for item in Cell.all:
+            item.is_mine = False
 
     @staticmethod
     def randomize_mines():
         picked_mines = random.sample(Cell.all, settings.mines)
+        print(len(picked_mines), end=" ")
+        print("mines", end=" ")
         print(picked_mines)
         for picked_mines in picked_mines:
             picked_mines.is_mine = True
 
-
     def __repr__(self):
-        return f"Cell({self.x}, {self.y}, {self.is_mine})"
+        return f"Cell({self.x+1}, {self.y+1}, {self.is_mine})"

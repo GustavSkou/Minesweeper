@@ -1,4 +1,5 @@
 from tkinter import Button
+from cell import Cell
 
 
 class Restart:
@@ -16,6 +17,7 @@ class Restart:
         button.bind('<Button-1>', self.left_click)
         self.restart_button = button
 
-
     def left_click(self, event):
         print("restart")
+        Cell.clear_mines()
+        Cell.randomize_mines()

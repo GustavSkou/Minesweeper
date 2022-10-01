@@ -10,5 +10,6 @@ def width_pro(procent):
 def top_frame_height(procent):
     return settings.top_frame / 100 * procent
 
+
 def bottom_frame_height(procent):
     return settings.bottom_frame / 100 * procent

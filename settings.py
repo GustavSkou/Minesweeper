@@ -7,4 +7,4 @@ top_frame = utils.height_pro(18)
 bottom_frame = utils.height_pro(80)
 
 grid_size = 9
-mines = 25
+mines = 10
