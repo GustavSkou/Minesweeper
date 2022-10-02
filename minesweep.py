@@ -34,12 +34,9 @@ top_frame.place(x=3, y=0)
 bottom_frame.place(x=3, y=utils.height_pro(20)+3)
 
 
-flag = PhotoImage(file=r"images\flag.png")
-cell = PhotoImage(file=r"images\one.png")
-mine = PhotoImage(file=r"images\mine.png")
-rest = PhotoImage(file=r"images\restart.png")
-
-img = [cell, flag, mine, rest]
+restart = PhotoImage(file=r"images\restart.png")
+cell = PhotoImage(file=r"images\cell.png")
+img = cell
 
 # Creating minefield
 for x in range(settings.grid_size):
@@ -47,7 +44,7 @@ for x in range(settings.grid_size):
         c = Cell(x, y)
         c.create_button(
             bottom_frame,
-            img[0]
+            img
         )
         c.cell_button.grid(
             column=x, row=y
@@ -57,7 +54,7 @@ for x in range(settings.grid_size):
 r = Restart()
 r.create_button(
     top_frame,
-    img[3]
+    restart
 )
 r.restart_button.place(
     x=utils.width_pro(50)-3, y=utils.top_frame_height(50), anchor=CENTER
