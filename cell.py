@@ -1,9 +1,6 @@
-import cell
 from tkinter import *
 import settings
 import random
-
-
 
 class Cell:
     all = []
@@ -26,18 +23,19 @@ class Cell:
         self.cell_button = None
         self.x = x
         self.y = y
+        self.is_opened = False
 
         Cell.all.append(self)
 
-    def create_button(self, location, img):
+    def create_button(self, location, txt):
         button = Button(
             location,
-            image=img,
+            text=txt,
+            font=("Arial", "6"),
             bg="gray",
-            height=10,
-            width=10
+            height=1,
+            width=1
         )
-
         button.bind('<Button-1>', self.left_click)
         button.bind('<Button-3>', self.right_click)
 
@@ -47,9 +45,10 @@ class Cell:
         if self.flagged:
             print("CELL FLAGGED")
         elif not self.is_mine:  # When we click on a cell that isn't a mine
+            self.is_opened = True
             mine_count = 0
             pos = Cell.all.index(self)
-            mine_detector = []      #We cannot add the cells at the start if so we can get an out-of-bounds error :(
+            mine_detector = []      # We cannot add the cells at the start if so we can get an out-of-bounds error :(
             if pos == 0:
                 mine_detector = [
                     Cell.all[1],
@@ -78,7 +77,7 @@ class Cell:
                 for item in Cell.left:
                     if pos == item:
                         mine_detector = [
-                            Cell.all[pos - 1],      # left
+                            Cell.all[pos - 1],          # left
                             Cell.all[pos + 1],
                             Cell.all[pos + 8],
                             Cell.all[pos + 9],
@@ -126,7 +125,11 @@ class Cell:
                 if item.is_mine:
                     mine_count = mine_count + 1
 
-            self.cell_button.configure(bg=Cell.color[mine_count])
+            self.cell_button.configure(
+                bg=Cell.color[mine_count],
+                text=f"{mine_count}",
+                fg="black"
+                )
 
             print(pos)
             print(mine_detector)
@@ -134,10 +137,13 @@ class Cell:
         else:
             self.mine()
 
+    def show_num(self):
+        pass
+
     def right_click(self, event):
-        if not self.flagged:
-            self.flagged = True
-            print("FLAGGED")
+        if self.is_opened:
+            pass
+        elif not self.flagged:
             self.flag()
         else:
             self.flagged = False
@@ -145,19 +151,51 @@ class Cell:
             self.cell_color()
 
     def mine(self):         # to show mine
-        self.cell_button.configure(bg="black")
+        self.cell_button.configure(
+            bg="black",
+            text="Ø",
+            fg="white"
+        )
+        self.is_opened = True
+        Cell.lose(self)
 
     def flag(self):         # to show flag
-        self.cell_button.configure(bg="#b52a2a")
+        self.cell_button.configure(
+            bg="#b52a2a",
+            text=" F ",
+            fg="white"
+        )
+        self.flagged = True
+        print("FLAGGED")
 
     def cell_color(self):
-        self.cell_button.configure(bg="gray")
+        self.cell_button.configure(
+            bg="gray",
+            text="  ",
+            fg="black"
+        )
+
+    def win(self):
+        pass
+
+    @staticmethod
+    def lose():
+        for item in Cell.all:
+            item.is_opened = True
+            item.cell_button.configure(
+                bg="black"
+            )
 
     @staticmethod
     def clear_mines():
         for item in Cell.all:
             item.is_mine = False
-            item.bg = "gray"
+            if item.is_opened or item.flagged:
+                item.cell_button.configure(
+                    bg="gray",
+                    text="  "
+                )
+                item.flagged = False
 
     @staticmethod
     def randomize_mines():
@@ -169,4 +207,4 @@ class Cell:
             picked_mines.is_mine = True
 
     def __repr__(self):
-        return f"Cell({self.x + 1}, {self.y + 1}, {self.is_mine})"
+        return f"Cell({self.x + 1}, {self.y + 1}, {self.is_mine}, {self.is_opened}, {self.flagged})"

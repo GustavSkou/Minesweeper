@@ -2,7 +2,6 @@ from tkinter import *
 
 import settings
 import utils
-import random
 
 from cell import Cell
 from restart import Restart
@@ -31,30 +30,24 @@ bottom_frame = Frame(
 
 # placing frames
 top_frame.place(x=3, y=0)
-bottom_frame.place(x=3, y=utils.height_pro(20)+3)
+bottom_frame.place(x=3, y=utils.height_pro(20))
 
-
-restart = PhotoImage(file=r"images\restart.png")
-cell = PhotoImage(file=r"images\cell.png")
-img = cell
-
-# Creating minefield
 for x in range(settings.grid_size):
     for y in range(settings.grid_size):
         c = Cell(x, y)
         c.create_button(
             bottom_frame,
-            img
+            txt=""
         )
         c.cell_button.grid(
             column=x, row=y
         )
 
+
 # Place restart button
 r = Restart()
 r.create_button(
-    top_frame,
-    restart
+    top_frame
 )
 r.restart_button.place(
     x=utils.width_pro(50)-3, y=utils.top_frame_height(50), anchor=CENTER

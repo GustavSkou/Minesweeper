@@ -1,7 +1,7 @@
 import utils
 
-height = 188
-width = 150
+height = 208
+width = 142
 
 top_frame = utils.height_pro(18)
 bottom_frame = utils.height_pro(80)

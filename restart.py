@@ -1,17 +1,17 @@
 from tkinter import Button
 from cell import Cell
 
-
 class Restart:
     def __init__(self):
         self.restart_button = None
 
-    def create_button(self, location, img):
+    def create_button(self, location):
         button = Button(
             location,
-            image=img,
-            height=10,
-            width=10
+            text="R",
+            font=("Arial", "6"),
+            height=1,
+            width=1
         )
 
         button.bind('<Button-1>', self.left_click)
@@ -21,3 +21,4 @@ class Restart:
         print("restart")
         Cell.clear_mines()
         Cell.randomize_mines()
+
